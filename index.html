@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Timer</title>
+    <style>
+        /* Styles as provided */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        #header {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        #container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: #ff0000;
+            transition: width 0.1s;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            margin: 2rem 0;
+        }
+
+        .label {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #start {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #stop {
+            background-color: #f44336;
+            color: white;
+        }
+
+        #reset {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .config-container {
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .config-container input {
+            width: 60px;
+            padding: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            margin: 0 0.5rem;
+        }
+        #content {
+            margin: 1rem 
+        }
+        #content *{
+            margin: 1%;
+        }
+        #content li {
+            margin: 0.5%;
+            list-style: square;
+        }
+        section {
+            margin: 1% 3% !important;;
+        }
+
+        body.night-mode {
+    background-color: #1c1c1c;
+    color: #f0f0f0;
+}
+
+#container.night-mode {
+    background-color: #333;
+}
+
+.night-mode .btn {
+    color: white;
+}
+
+.night-mode #start {
+    background-color: #357a38;
+}
+
+.night-mode #stop {
+    background-color: #d32f2f;
+}
+
+.night-mode #reset {
+    background-color: #1976d2;
+}
+
+         /* Toggle switch container */
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    top: 10px;
+    right: 0;
+}
+
+.toggle-switch input {
+    display: none; /* Hide default checkbox */
+}
+
+/* Slider (circle) and background */
+.slider {
+    position: relative;
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 50px;
+    margin-right: 10px;
+    transition: background-color 0.3s;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+/* Toggle ON style */
+input:checked + .slider {
+    background-color: #610404; /* ON color */
+}
+
+input:checked + .slider::before {
+    transform: translateX(26px); /* Move circle to the right */
+}
+
+/* ON/OFF Text */
+.label-text {
+    font-size: 16px;
+    color: #333;
+}
+
+input:checked + .slider + .label-text {
+    color: #af4c4c; /* ON text color */
+}
+@media only screen and (max-width: 767px) {
+    section {
+        margin: 14% 0!important;;
+    }
+    .benefit {
+        margin-bottom: 5% !important;;
+    }
+}
+    </style>
+</head>
+<body>
+    <header id="header">
+        <h1>Pomodoro Timer</h1>
+        <p>by amos</p>
+        <label class="toggle-switch">
+            <input type="checkbox" id="toggleMode">
+            <span class="slider"></span>
+            <span class="label-text" id="btn-toggle">Night mode</span>
+        </label>
+        
+    </header>
+    <main>
+        <div id="container">
+            <div class="progress-bar-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <p id="status" class="label">Time to focus!</p>
+            <div id="timer" class="timer">
+                <span id="minutes">25</span>
+                <span class="semicolon">:</span>
+                <span id="seconds">00</span>
+            </div>
+            <div class="config-container">
+                <label>Work: <input type="number" id="workDuration" value="25"> min</label>
+                <label>Break: <input type="number" id="breakDuration" value="5"> min</label>
+            </div>
+            <div class="btn-container">
+                <button id="start" class="btn">Start</button>
+                <button id="stop" class="btn">Stop</button>
+                <button id="reset" class="btn">Reset</button>
+            </div>
+            <audio id="notificationSound" src="notification.mp3" preload="auto"></audio>
+        </div>
+        <div id="content">
+            <section class="desc"> <h1>What is the Pomodoro Technique?</h1>
+            <p>The Pomodoro Technique is a time management method that helps people improve focus, productivity, and work-life balance. Developed by Francesco Cirillo in the late 1980s, this technique encourages breaking down work into manageable intervals to maximize concentration and minimize burnout.</p></section>
+           <section class="how"><h2>How It Works:</h2>
+            <p>The Pomodoro Technique uses a series of focused work sessions, typically lasting 25 minutes each, known as "Pomodoros," separated by short breaks. Here's how to get started:</p>
+            <ul>
+                <li><strong>Choose a Task:</strong> Select the task or project you want to focus on.</li>
+                <li><strong>Set a Timer for 25 Minutes:</strong> During this time, work on your task with undivided attention.</li>
+                <li><strong>Work Without Interruption:</strong> Avoid distractions and keep a steady focus until the timer rings.</li>
+                <li><strong>Take a Short Break: </strong>Once the 25 minutes are up, take a 5-minute break to recharge.</li>
+                <li><strong>Repeat:</strong> After completing four "Pomodoros," take a longer break of 15–30 minutes.</li>
+            </ul>
+            <h3>This cycle of focused work and intentional breaks helps maintain mental freshness, reduces fatigue, and promotes consistent productivity.</h3>
+        </section>
+<section class="benefit">
+            <h2>Benefits of the Pomodoro Technique:</h2>
+            <ul>
+                <li><strong>Improves Focus:</strong> Working in short intervals trains the brain to sustain concentration.</li>
+                <li><strong>Reduces Procrastination:</strong> Breaking tasks down makes large projects feel more approachable.</li>
+                <li><strong>Enhances Productivity:</strong> Structured breaks prevent burnout and keep motivation high.</li>
+                <li><strong>Promotes Better Work-Life Balance:</strong> Knowing when to stop working helps reduce overwork and stress.</li>
+            </ul>
+            </section><p>By using the Pomodoro Technique, people can boost their productivity while avoiding burnout, making it a popular choice for students, professionals, and creatives alike. Whether you're tackling complex projects or routine tasks, the Pomodoro Technique offers a structured yet flexible way to achieve your goals.</p>
+        </div>
+    </main>
+
+    <script>
+        const startBtn = document.getElementById("start");
+        const stopBtn = document.getElementById("stop");
+        const resetBtn = document.getElementById("reset");
+        const minutesDisplay = document.getElementById("minutes");
+        const secondsDisplay = document.getElementById("seconds");
+        const statusDisplay = document.getElementById("status");
+        const workDurationInput = document.getElementById("workDuration");
+        const breakDurationInput = document.getElementById("breakDuration");
+        const notificationSound = document.getElementById("notificationSound");
+        const progressBar = document.getElementById("progressBar");
+
+        let timeLeft;
+        let timerId = null;
+        let isWorkTime = true;
+        let initialTime;  // To track the initial time for progress bar calculation
+
+        function updateDisplay(timeLeft) {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            minutesDisplay.textContent = minutes.toString().padStart(2, '0');
+            secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+        }
+
+        function updateProgressBar() {
+            const percentage = ((initialTime - timeLeft) / initialTime) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
+        function startTimer() {
+            if (timerId === null) {
+                timeLeft = timeLeft || getConfiguredWorkTime();
+                initialTime = timeLeft;  // Set initial time for this session
+
+                timerId = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay(timeLeft);
+                    updateProgressBar();
+
+                    if (timeLeft === 0) {
+                        clearInterval(timerId);
+                        timerId = null;
+                        notificationSound.play();
+
+                        // Switch between work and break
+                        isWorkTime = !isWorkTime;
+                        timeLeft = isWorkTime ? getConfiguredWorkTime() : getConfiguredBreakTime();
+                        initialTime = timeLeft;  // Reset initial time for the next session
+                        statusDisplay.textContent = isWorkTime ? "Time to focus!" : "Time for a break!";
+
+                        // Reset progress bar and start the next cycle automatically
+                        progressBar.style.width = "0%";
+                        startTimer();
+                    }
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timerId);
+            timerId = null;
+        }
+
+        function resetTimer() {
+            clearInterval(timerId);
+            timerId = null;
+            isWorkTime = true;
+            timeLeft = getConfiguredWorkTime();
+            initialTime = timeLeft;  // Reset initial time
+            updateDisplay(timeLeft);
+            statusDisplay.textContent = "Time to focus!";
+            progressBar.style.width = "0%";  // Reset progress bar
+        }
+
+        function getConfiguredWorkTime() {
+            return parseInt(workDurationInput.value) * 60;
+        }
+
+        function getConfiguredBreakTime() {
+            return parseInt(breakDurationInput.value) * 60;
+        }
+
+        startBtn.addEventListener("click", startTimer);
+        stopBtn.addEventListener("click", stopTimer);
+        resetBtn.addEventListener("click", resetTimer);
+        const toggleModeBtn = document.getElementById("toggleMode");
+
+toggleModeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("night-mode");
+    document.getElementById("container").classList.toggle("night-mode");
+
+    // Update button text based on current mode
+    toggleModeBtn.textContent = document.body.classList.contains("night-mode") ? "Day Mode" : "Night Mode";
+});
+const modeToggle = document.getElementById("toggleMode");
+const modeLabel = document.getElementById("btn-toggle");
+
+modeToggle.addEventListener("change", () => {
+    if (modeToggle.checked) {
+        document.body.classList.add("night-mode"); // Enable night mode
+        modeLabel.textContent = "Day Mode"; // Change text to Day Mode
+    } else {
+        document.body.classList.remove("night-mode"); // Disable night mode
+        modeLabel.textContent = "Night Mode"; // Change text to Night Mode
+    }
+});
+
+    </script>
+</body>
+</html>
