@@ -5,139 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
     <style>
-        /* Styles as provided */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+       /* Reset and Global Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            background-color: #f0f2f5;
-            color: #333;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-color: #f4f7fa; /* Softer, calming background */
+    color: #444; /* Softer text color */
+    line-height: 1.6;
+}
 
-        #header {
-            margin: 2rem 0;
-            text-align: center;
-        }
+/* Header */
+#header {
+    margin: 2rem 0;
+    text-align: center;
+    color: #222; /* Darker shade for the header */
+    font-size: 2rem; /* Larger for emphasis */
+    font-weight: bold;
+}
 
-        #container {
-            max-width: 90%;
-            margin: 0 auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
+/* Main Container */
+#container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
 
-        .progress-bar-container {
-            width: 100%;
-            height: 10px;
-            background-color: #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
 
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background-color: #ff0000;
-            transition: width 0.1s;
-        }
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #5c6bc0; /* Softer purple for the progress */
+    transition: width 0.2s ease-in-out;
+}
 
-        .timer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 4rem;
-            margin: 2rem 0;
-        }
+/* Timer Display */
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4.5rem; /* Larger for visibility */
+    color: #2b2b2b; /* Darker shade for visibility */
+    font-weight: bold;
+    margin: 2rem 0;
+}
 
-        .label {
-            font-size: 1.2rem;
-            margin: 1rem 0;
-            text-align: center;
-        }
+/* Label Styling */
+.label {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+    text-align: center;
+    color: #666;
+}
 
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
+/* Button Container and Buttons */
+.btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
 
-        .btn {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-        #start {
-            background-color: #4CAF50;
-            color: white;
-        }
+#start {
+    background-color: #43a047; /* Softer green */
+    color: white;
+}
 
-        #stop {
-            background-color: #f44336;
-            color: white;
-        }
+#stop, .red {
+    background-color: #ef5350; /* Softer red */
+    color: white;
+}
 
-        #reset {
-            background-color: #2196F3;
-            color: white;
-        }
+#reset {
+    background-color: #1e88e5; /* Softer blue */
+    color: white;
+    display: none;
+}
 
-        .btn:hover {
-            opacity: 0.9;
-        }
+/* Button Hover Effect */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
+}
 
-        .config-container {
-            margin: 1rem 0;
-            text-align: center;
-        }
+/* Config Container */
+.config-container {
+    margin: 1.5rem 0;
+    text-align: center;
+}
 
-        .config-container input {
-            width: 60px;
-            padding: 0.5rem;
-            font-size: 1rem;
-            text-align: center;
-            margin: 0 0.5rem;
-        }
-        #content {
-            margin: 1rem 
-        }
-        #content *{
-            margin: 1%;
-        }
-        #content li {
-            margin: 0.5%;
-            list-style: square;
-        }
-        section {
-            margin: 1% 3% !important;;
-        }
+.config-container input {
+    width: 60px;
+    padding: 0.6rem;
+    font-size: 1rem;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
 
-        body.night-mode {
-    background-color: #1c1c1c;
-    color: #f0f0f0;
+/* Content Margin */
+#content {
+    margin: 1rem;
+}
+#content * {
+    margin: 1%;
+}
+#content li {
+    margin: 0.5%;
+    list-style: square;
+}
+section {
+    margin: 1% 3%;
+}
+
+/* Dark Mode */
+body.night-mode {
+    background-color: #1e1e1e;
+    color: #eaeaea !important;
 }
 
 #container.night-mode {
-    background-color: #333;
+    background-color: #2c2c2c;
 }
-
+.night-mode header  {
+    color: #4a148c !important;
+}
+.night-mode .timer {
+    color: #eaeaea;
+}
 .night-mode .btn {
     color: white;
 }
 
 .night-mode #start {
-    background-color: #357a38;
+    background-color: #4a148c;
 }
 
 .night-mode #stop {
@@ -148,7 +176,7 @@
     background-color: #1976d2;
 }
 
-         /* Toggle switch container */
+/* Toggle Switch */
 .toggle-switch {
     display: flex;
     align-items: center;
@@ -156,19 +184,19 @@
     font-family: Arial, sans-serif;
     position: absolute;
     top: 10px;
-    right: 0;
+    right: 10px;
 }
 
 .toggle-switch input {
     display: none; /* Hide default checkbox */
 }
 
-/* Slider (circle) and background */
+/* Slider */
 .slider {
     position: relative;
     width: 50px;
     height: 24px;
-    background-color: #ccc;
+    background-color: #bbb;
     border-radius: 50px;
     margin-right: 10px;
     transition: background-color 0.3s;
@@ -183,35 +211,38 @@
     background-color: white;
     top: 2px;
     left: 2px;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
-/* Toggle ON style */
+/* Toggle ON */
 input:checked + .slider {
-    background-color: #610404; /* ON color */
+    background-color: #4a148c; /* Elegant purple for ON */
 }
 
 input:checked + .slider::before {
-    transform: translateX(26px); /* Move circle to the right */
+    transform: translateX(26px);
 }
 
-/* ON/OFF Text */
+/* ON/OFF Label Text */
 .label-text {
     font-size: 16px;
-    color: #333;
+    color: #adaaaa;
 }
 
 input:checked + .slider + .label-text {
-    color: #af4c4c; /* ON text color */
+    color: #9575cd; /* Softer color for ON label */
 }
+
+/* Mobile Media Query */
 @media only screen and (max-width: 767px) {
     section {
-        margin: 14% 0!important;;
+        margin: 14% 0;
     }
     .benefit {
-        margin-bottom: 5% !important;;
+        margin-bottom: 5%;
     }
 }
+
     </style>
 </head>
 <body>
@@ -242,7 +273,7 @@ input:checked + .slider + .label-text {
             </div>
             <div class="btn-container">
                 <button id="start" class="btn">Start</button>
-                <button id="stop" class="btn">Stop</button>
+
                 <button id="reset" class="btn">Reset</button>
             </div>
             <audio id="notificationSound" src="notification.mp3" preload="auto"></audio>
@@ -275,7 +306,7 @@ input:checked + .slider + .label-text {
 
     <script>
         const startBtn = document.getElementById("start");
-        const stopBtn = document.getElementById("stop");
+
         const resetBtn = document.getElementById("reset");
         const minutesDisplay = document.getElementById("minutes");
         const secondsDisplay = document.getElementById("seconds");
@@ -284,6 +315,7 @@ input:checked + .slider + .label-text {
         const breakDurationInput = document.getElementById("breakDuration");
         const notificationSound = document.getElementById("notificationSound");
         const progressBar = document.getElementById("progressBar");
+        var isStart = false;
 
         let timeLeft;
         let timerId = null;
@@ -356,7 +388,30 @@ input:checked + .slider + .label-text {
         }
 
         startBtn.addEventListener("click", startTimer);
-        stopBtn.addEventListener("click", stopTimer);
+        startBtn.addEventListener("click", () => {
+    isStart = !isStart;
+    if (isStart) {
+        startBtn.classList.add("red");
+        startBtn.innerText = "Stop";
+        resetBtn.style.display = "block";
+    } else {
+        startBtn.classList.remove("red")
+        startBtn.innerText = "Start"
+        stopTimer()
+
+    }
+});
+var isreset = false;
+resetBtn.addEventListener("click", () => {
+     resetBtn.style.display = "none";
+        startBtn.classList.remove("red")
+        startBtn.innerText = "Start"
+        isStart = !isStart
+    
+
+    }
+);
+
         resetBtn.addEventListener("click", resetTimer);
         const toggleModeBtn = document.getElementById("toggleMode");
 
