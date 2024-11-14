@@ -5,244 +5,251 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pomodoro Timer</title>
     <style>
-       /* Reset and Global Styling */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
-    background-color: #f4f7fa; /* Softer, calming background */
-    color: #444; /* Softer text color */
-    line-height: 1.6;
-}
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f6f9fc 0%, #edf1f7 100%);
+            color: #2d3748;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
 
-/* Header */
-#header {
-    margin: 2rem 0;
-    text-align: center;
-    color: #222; /* Darker shade for the header */
-    font-size: 2rem; /* Larger for emphasis */
-    font-weight: bold;
-}
+        #header {
+            margin: 2rem 0;
+            text-align: center;
+            padding: 1rem;
+        }
 
-/* Main Container */
-#container {
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 2rem;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+        #header h1 {
+            font-size: 2.5rem;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
 
-/* Progress Bar */
-.progress-bar-container {
-    width: 100%;
-    height: 10px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-}
+        #header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
 
-.progress-bar {
-    height: 100%;
-    width: 0;
-    background-color: #5c6bc0; /* Softer purple for the progress */
-    transition: width 0.2s ease-in-out;
-}
+        #container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+        }
 
-/* Timer Display */
-.timer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 4.5rem; /* Larger for visibility */
-    color: #2b2b2b; /* Darker shade for visibility */
-    font-weight: bold;
-    margin: 2rem 0;
-}
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background-color: #edf2f7;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
 
-/* Label Styling */
-.label {
-    font-size: 1.1rem;
-    margin: 1rem 0;
-    text-align: center;
-    color: #666;
-}
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
+            transition: width 0.3s ease-in-out;
+        }
 
-/* Button Container and Buttons */
-.btn-container {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-}
+        .timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5rem;
+            color: #2d3748;
+            font-weight: 700;
+            margin: 2rem 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-.btn {
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+        .semicolon {
+            animation: blink 1s infinite;
+            opacity: 1;
+        }
 
-#start {
-    background-color: #43a047; /* Softer green */
-    color: white;
-}
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
 
-#stop, .red {
-    background-color: #ef5350; /* Softer red */
-    color: white;
-}
+        .label {
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            color: #4a5568;
+            font-weight: 500;
+        }
 
-#reset {
-    background-color: #1e88e5; /* Softer blue */
-    color: white;
-    display: none;
-}
+        .config-container {
+            margin: 2rem 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
 
-/* Button Hover Effect */
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    opacity: 0.95;
-}
+        .config-container input {
+            width: 70px;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
 
-/* Config Container */
-.config-container {
-    margin: 1.5rem 0;
-    text-align: center;
-}
+        .config-container input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
 
-.config-container input {
-    width: 60px;
-    padding: 0.6rem;
-    font-size: 1rem;
-    text-align: center;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+        .config-container label {
+            font-weight: 500;
+            color: #4a5568;
+        }
 
-/* Content Margin */
-#content {
-    margin: 1rem;
-}
-#content * {
-    margin: 1%;
-}
-#content li {
-    margin: 0.5%;
-    list-style: square;
-}
-section {
-    margin: 1% 3%;
-}
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
 
-/* Dark Mode */
-body.night-mode {
-    background-color: #1e1e1e;
-    color: #eaeaea !important;
-}
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-#container.night-mode {
-    background-color: #2c2c2c;
-}
-.night-mode header  {
-    color: #4a148c !important;
-}
-.night-mode .timer {
-    color: #eaeaea;
-}
-.night-mode .btn {
-    color: white;
-}
+        #start {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
 
-.night-mode #start {
-    background-color: #4a148c;
-}
+        #start.red {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
 
-.night-mode #stop {
-    background-color: #d32f2f;
-}
+        #reset {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            display: none;
+        }
 
-.night-mode #reset {
-    background-color: #1976d2;
-}
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
 
-/* Toggle Switch */
-.toggle-switch {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
+        .btn:active {
+            transform: translateY(0);
+        }
 
-.toggle-switch input {
-    display: none; /* Hide default checkbox */
-}
+        /* Night Mode Styles */
+        body.night-mode {
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: #e2e8f0;
+        }
 
-/* Slider */
-.slider {
-    position: relative;
-    width: 50px;
-    height: 24px;
-    background-color: #bbb;
-    border-radius: 50px;
-    margin-right: 10px;
-    transition: background-color 0.3s;
-}
+        .night-mode #container {
+            background: rgba(26, 32, 44, 0.95);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
 
-.slider::before {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: white;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.3s ease;
-}
+        .night-mode .timer {
+            color: #e2e8f0;
+        }
 
-/* Toggle ON */
-input:checked + .slider {
-    background-color: #4a148c; /* Elegant purple for ON */
-}
+        .night-mode .label {
+            color: #a0aec0;
+        }
 
-input:checked + .slider::before {
-    transform: translateX(26px);
-}
+        .night-mode #header h1 {
+            color: #e2e8f0;
+        }
 
-/* ON/OFF Label Text */
-.label-text {
-    font-size: 16px;
-    color: #adaaaa;
-}
+        .night-mode .config-container input {
+            background: #2d3748;
+            border-color: #4a5568;
+            color: #e2e8f0;
+        }
 
-input:checked + .slider + .label-text {
-    color: #9575cd; /* Softer color for ON label */
-}
+        .night-mode .config-container label {
+            color: #a0aec0;
+        }
 
-/* Mobile Media Query */
-@media only screen and (max-width: 767px) {
-    section {
-        margin: 14% 0;
-    }
-    .benefit {
-        margin-bottom: 5%;
-    }
-}
+        /* Toggle Switch */
+        .toggle-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
+        .toggle-switch .slider {
+            width: 60px;
+            height: 30px;
+            background: #cbd5e0;
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .toggle-switch .slider:before {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            top: 3px;
+            left: 3px;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked + .slider {
+            background: #6366f1;
+        }
+
+        .toggle-switch input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .label-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .night-mode .label-text {
+            color: #a0aec0;
+        }
     </style>
 </head>
 <body>
@@ -276,7 +283,7 @@ input:checked + .slider + .label-text {
 
                 <button id="reset" class="btn">Reset</button>
             </div>
-            <audio id="notificationSound" src="notification.mp3" preload="auto"></audio>
+            <audio id="notificationSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" preload="auto"></audio>
         </div>
         <div id="content">
             <section class="desc"> <h1>What is the Pomodoro Technique?</h1>
@@ -306,7 +313,7 @@ input:checked + .slider + .label-text {
 
     <script>
         const startBtn = document.getElementById("start");
-
+        const progbar = document.querySelector(".progress-bar-container")
         const resetBtn = document.getElementById("reset");
         const minutesDisplay = document.getElementById("minutes");
         const secondsDisplay = document.getElementById("seconds");
@@ -315,12 +322,25 @@ input:checked + .slider + .label-text {
         const breakDurationInput = document.getElementById("breakDuration");
         const notificationSound = document.getElementById("notificationSound");
         const progressBar = document.getElementById("progressBar");
+        const inpdiv = document.querySelector(".config-container");
         var isStart = false;
 
         let timeLeft;
         let timerId = null;
         let isWorkTime = true;
         let initialTime;  // To track the initial time for progress bar calculation
+        function getConfiguredWorkTime() {
+            return parseInt(workDurationInput.value) * 60;
+
+        }
+        
+
+        function getConfiguredBreakTime() {
+            return parseInt(breakDurationInput.value) * 60;
+        }
+        workDurationInput.addEventListener('input', () => {
+            minutesDisplay.textContent = workDurationInput.value;
+        })
 
         function updateDisplay(timeLeft) {
             const minutes = Math.floor(timeLeft / 60);
@@ -335,33 +355,42 @@ input:checked + .slider + .label-text {
         }
 
         function startTimer() {
-            if (timerId === null) {
-                timeLeft = timeLeft || getConfiguredWorkTime();
-                initialTime = timeLeft;  // Set initial time for this session
-
-                timerId = setInterval(() => {
-                    timeLeft--;
-                    updateDisplay(timeLeft);
-                    updateProgressBar();
-
-                    if (timeLeft === 0) {
-                        clearInterval(timerId);
-                        timerId = null;
-                        notificationSound.play();
-
-                        // Switch between work and break
-                        isWorkTime = !isWorkTime;
-                        timeLeft = isWorkTime ? getConfiguredWorkTime() : getConfiguredBreakTime();
-                        initialTime = timeLeft;  // Reset initial time for the next session
-                        statusDisplay.textContent = isWorkTime ? "Time to focus!" : "Time for a break!";
-
-                        // Reset progress bar and start the next cycle automatically
-                        progressBar.style.width = "0%";
-                        startTimer();
-                    }
-                }, 1000);
-            }
+    if (timerId === null) {
+        // Set timeLeft dan initialTime hanya jika timer baru dimulai pertama kali
+        if (!timeLeft) {
+            timeLeft = getConfiguredWorkTime();
+            initialTime = timeLeft; // Set initialTime hanya saat pertama kali
+        } else if (minutesDisplay.textContent == workDurationInput.value) {
+            timeLeft = getConfiguredWorkTime();
         }
+    
+        // Update display sebelum memulai interval
+        updateDisplay(timeLeft);
+        updateProgressBar(); // Update progress bar dengan perhitungan yang benar
+        
+        timerId = setInterval(() => {
+            timeLeft--;
+            updateDisplay(timeLeft);
+            updateProgressBar();
+
+            if (timeLeft === 0) {
+                clearInterval(timerId);
+                timerId = null;
+                notificationSound.play();
+                 inpdiv.style.display = "block"
+
+
+                isWorkTime = !isWorkTime;
+                timeLeft = isWorkTime ? getConfiguredWorkTime() : getConfiguredBreakTime();
+                initialTime = timeLeft; // Reset initialTime hanya saat sesi baru dimulai
+                statusDisplay.textContent = isWorkTime ? "Time to focus!" : "Time for a break!";
+
+                progressBar.style.width = "0%";
+                startTimer();
+            }
+        }, 1000);
+    }
+}
 
         function stopTimer() {
             clearInterval(timerId);
@@ -379,13 +408,6 @@ input:checked + .slider + .label-text {
             progressBar.style.width = "0%";  // Reset progress bar
         }
 
-        function getConfiguredWorkTime() {
-            return parseInt(workDurationInput.value) * 60;
-        }
-
-        function getConfiguredBreakTime() {
-            return parseInt(breakDurationInput.value) * 60;
-        }
 
         startBtn.addEventListener("click", startTimer);
         startBtn.addEventListener("click", () => {
@@ -394,6 +416,8 @@ input:checked + .slider + .label-text {
         startBtn.classList.add("red");
         startBtn.innerText = "Stop";
         resetBtn.style.display = "block";
+        inpdiv.style.display = "none"
+        
     } else {
         startBtn.classList.remove("red")
         startBtn.innerText = "Start"
@@ -402,11 +426,14 @@ input:checked + .slider + .label-text {
     }
 });
 var isreset = false;
+
 resetBtn.addEventListener("click", () => {
      resetBtn.style.display = "none";
         startBtn.classList.remove("red")
         startBtn.innerText = "Start"
-        isStart = !isStart
+        isStart = !isStart;
+        inpdiv.style.display = "block";
+
     
 
     }
