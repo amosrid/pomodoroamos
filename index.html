@@ -56,6 +56,7 @@
             overflow: hidden;
             margin-bottom: 2rem;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: none;
         }
 
         .progress-bar {
@@ -250,6 +251,27 @@
         .night-mode .label-text {
             color: #a0aec0;
         }
+        section {
+            margin: 3%;
+        }
+        #content .bott {
+                margin: 3%;
+            }
+        @media screen and (max-width: 750px) {
+            section {
+                margin: 7% !important;
+            }
+            #content .bott {
+                margin: 7% !important;
+            }
+            .config-container {
+                margin: 1p;
+            }
+            #container {
+                padding: 40px 0;
+                margin: auto 3%;
+            }
+}
     </style>
 </head>
 <body>
@@ -307,7 +329,7 @@
                 <li><strong>Enhances Productivity:</strong> Structured breaks prevent burnout and keep motivation high.</li>
                 <li><strong>Promotes Better Work-Life Balance:</strong> Knowing when to stop working helps reduce overwork and stress.</li>
             </ul>
-            </section><p>By using the Pomodoro Technique, people can boost their productivity while avoiding burnout, making it a popular choice for students, professionals, and creatives alike. Whether you're tackling complex projects or routine tasks, the Pomodoro Technique offers a structured yet flexible way to achieve your goals.</p>
+            </section><p class="bott">By using the Pomodoro Technique, people can boost their productivity while avoiding burnout, making it a popular choice for students, professionals, and creatives alike. Whether you're tackling complex projects or routine tasks, the Pomodoro Technique offers a structured yet flexible way to achieve your goals.</p>
         </div>
     </main>
 
@@ -378,6 +400,8 @@
                 timerId = null;
                 notificationSound.play();
                  inpdiv.style.display = "block"
+        progbar.style.display = "block";
+
 
 
                 isWorkTime = !isWorkTime;
@@ -416,7 +440,8 @@
         startBtn.classList.add("red");
         startBtn.innerText = "Stop";
         resetBtn.style.display = "block";
-        inpdiv.style.display = "none"
+        inpdiv.style.display = "none";
+        progbar.style.display = "block";
         
     } else {
         startBtn.classList.remove("red")
@@ -433,6 +458,8 @@ resetBtn.addEventListener("click", () => {
         startBtn.innerText = "Start"
         isStart = !isStart;
         inpdiv.style.display = "block";
+        progbar.style.display = "none";
+
 
     
 
